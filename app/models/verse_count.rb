@@ -1,0 +1,2 @@
+class VerseCount < ApplicationRecord
+end

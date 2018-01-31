@@ -5,3 +5,23 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
+
+file = File.new("./db/Moksopaya with Bhaskarakantha's Tika.txt", 'r')
+
+# verses = file.read.scan /[^\d]*\/\/ Mo_.\d*,\d*.\d* \/\//
+count = file.read.scan /Mo_(\d*),(\d*)\.(\d*) \/\//
+
+count.map! { |x| x.map(&:to_i) }
+
+prakaran_chapter_count = {}
+(1..4).each do |i|
+  value = count.select { |a, b, c| a == i }.map { |a, b, c| b }.max
+  prakaran_chapter_count[i] = value
+end
+
+(1..4).each do |i|
+  (1..prakaran_chapter_count[i]).each do |j|
+    value = count.select { |a, b, c| a == i && b == j }.map { |a, b, c| c }.max
+    VerseCount.create(chapter: "#{i},#{j}", count: value)
+  end
+end
