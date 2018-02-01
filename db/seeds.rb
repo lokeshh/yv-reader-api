@@ -8,8 +8,9 @@
 
 file = File.new("./db/Moksopaya with Bhaskarakantha's Tika.txt", 'r')
 
-# verses = file.read.scan /[^\d]*\/\/ Mo_.\d*,\d*.\d* \/\//
-count = file.read.scan /Mo_(\d*),(\d*)\.(\d*) \/\//
+text = file.read
+verses = text.scan /[^\d]*\/\/ Mo_.\d*,\d*.\d* \/\//
+count = text.scan /Mo_(\d*),(\d*)\.(\d*) \/\//
 
 count.map! { |x| x.map(&:to_i) }
 
@@ -22,6 +23,15 @@ end
 (1..4).each do |i|
   (1..prakaran_chapter_count[i]).each do |j|
     value = count.select { |a, b, c| a == i && b == j }.map { |a, b, c| c }.max
-    VerseCount.create(chapter: "#{i},#{j}", count: value)
+    entry = VerseCount.find_or_initialize_by(chapter: "#{i},#{j}")
+    entry.update_attributes(count: value)
   end
 end
+
+verses.each do |verse|
+  a, b, c = verse.match(/Mo_(\d*),(\d*).(\d*) \/\//).captures
+  location = "#{a},#{b},#{c}"
+  entry = Verse.find_or_initialize_by(location: location)
+  entry.update_attributes(value: verse)
+end
+

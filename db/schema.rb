@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180131171434) do
+ActiveRecord::Schema.define(version: 20180201094457) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -21,6 +21,14 @@ ActiveRecord::Schema.define(version: 20180131171434) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["chapter"], name: "index_verse_counts_on_chapter"
+  end
+
+  create_table "verses", force: :cascade do |t|
+    t.string "location"
+    t.text "value"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["location"], name: "index_verses_on_location"
   end
 
 end
