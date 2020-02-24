@@ -34,3 +34,4 @@
 #   entry = Verse.find_or_initialize_by(location: location)
 #   entry.update_attributes(value: verse)
 # end
+
