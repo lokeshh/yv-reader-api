@@ -43,5 +43,5 @@ data = JSON.parse(file)
 data.each do |i|
   loc = "#{i['book']},#{i['chapter']},#{i['verse']}"
   entry = Verse.find_or_initialize_by(location: loc)
-  entry.update_attributes(value: i['text'].join("\n"))
+  entry.update_attributes(value: i['text'].join("\n"), book: i['book'], chapter: i['chapter'], verse: i['verse'])
 end

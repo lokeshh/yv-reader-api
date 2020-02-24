@@ -2,7 +2,7 @@ class VerseCountsController < ApplicationController
   def count
     book = params[:book]
     chapter = params[:chapter]
-    entry = VerseCount.find_by(chapter: "#{book},#{chapter}")
-    render json: (entry ? entry.count || 0 : 0)
+    count = Verse.where(book: book, chapter: chapter).count
+    render json: count
   end
 end
