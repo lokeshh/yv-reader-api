@@ -35,3 +35,13 @@
 #   entry.update_attributes(value: verse)
 # end
 
+require 'json'
+
+file = File.read('./db/complete.json')
+
+data = JSON.parse(file)
+data.each do |i|
+  loc = "#{i['book']},#{i['chapter']},#{i['verse']}"
+  entry = Verse.find_or_initialize_by(location: loc)
+  entry.update_attributes(value: i['text'].join("\n"))
+end
